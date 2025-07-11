@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import CircularProgress from 'react-native-circular-progress-indicator';
 
 export default function Index() {
   const [selectedPeriod, setSelectedPeriod] = useState('today');
@@ -9,9 +10,33 @@ export default function Index() {
       case 'today':
         return (
           <>
+            {/* Calories left */}
+
             <View style={styles.view}>
-              <Text>Content for Today - Item 1</Text>
+              <Text style={styles.informationTextcal}>{data.calleft.today} cal left</Text>
+              <CircularProgress
+                value={data.calleft.today}
+                radius={60}
+                duration={1000}
+                progressValueColor={'#302f2b'}
+                maxValue={data.calleft.todayfrom}
+              />
             </View>
+
+            {/* Kilocalories spend */}
+
+            <View style={styles.view}>
+              <Text style={styles.informationTextkcal}>{data.kcalspend.today} kcal spend</Text>
+              <CircularProgress
+                value={data.kcalspend.today}
+                radius={60}
+                duration={1000}
+                progressValueColor={'#302f2b'}
+                maxValue={data.kcalspend.todayfrom}
+              />
+            </View>
+
+
           </>
         );
       case 'yesterday':
@@ -81,6 +106,25 @@ export default function Index() {
   );
 }
 
+const data = {
+  calleft: {
+    today: 2500,
+    yesterday: 2500,
+    week: 2500, 
+    todayfrom: 3000, 
+    yesterdayfrom: 3000, 
+    weekfrom: 3000,
+  }, 
+  kcalspend: {
+    today: 250, 
+    yesterday: 250, 
+    week: 250, 
+    todayfrom: 500, 
+    yesterdayfrom: 500, 
+    weekfrom: 500,
+  }
+}
+
 const styles = StyleSheet.create({
   container: {
     display: "flex",
@@ -89,14 +133,15 @@ const styles = StyleSheet.create({
   },
   view: {
     display: "flex",
-    padding: 50,
+    padding: 30,
     margin: 10,
     justifyContent: "center",
     alignItems: "center", 
     borderWidth: 1,
     borderColor: "#302f2c", 
     borderRadius: 10, 
-    backgroundColor: "#efece3",
+    backgroundColor: "#efece3", 
+    flexDirection: "row"
   },
   timebuttons: {
     display: "flex",
@@ -110,18 +155,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'relative',
+    position: 'relative', 
+    minWidth: 80,
   },
   linkText: {
-    fontSize: 18,
+    fontSize: 20,
     color: "#302f2c",
-    fontWeight: "500",
+    fontWeight: "400",
   },
   activeLink: {
   },
   activeLinkText: {
     color: "#302f2c",
-    fontWeight: "bold",
+    fontWeight: "500",
   },
   pressedLink: {
     opacity: 0.7,
@@ -133,5 +179,17 @@ const styles = StyleSheet.create({
     height: 6,
     borderRadius: 4,
     backgroundColor: '#302f2c',
+  }, 
+  informationTextcal: {
+    fontSize: 30,
+    color: "#302f2c",
+    fontWeight: "500", 
+    marginRight: 30, 
   },
+  informationTextkcal: {
+    fontSize: 30,
+    color: "#302f2c",
+    fontWeight: "500", 
+    marginRight: 20,
+  }
 });

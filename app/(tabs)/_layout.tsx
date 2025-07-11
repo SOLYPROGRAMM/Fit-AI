@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
     borderTopColor: "transparent",
     borderTopWidth: 0,
     elevation: 0, 
-    borderRadius: "16px",
   }, 
   headerImageStyle: {
     width: 80,
