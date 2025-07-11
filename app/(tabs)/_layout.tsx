@@ -17,12 +17,12 @@ export default function RootLayout() {
             headerStyle: {
               backgroundColor: "transparent"
             }, 
-            headerShadowVisible: false,             
+            headerShadowVisible: false,
         }} 
     >
       <Tabs.Screen name="Home" options={{
         headerTitle: () => <Image source={FitAiIcon} alt="Fit AI" style={styles.headerImageStyle} />, 
-        tabBarIcon: ({ focused, color }) => <Ionicons name={focused ? "home-sharp" : "home-outline"} color={color} size={25} />,
+        tabBarIcon: ({ focused, color }) => <Ionicons name={focused ? "home-sharp" : "home-outline"} color={color} size={25} />, 
       }}/>
 
       <Tabs.Screen name="Add" options={{
@@ -44,8 +44,7 @@ const styles = StyleSheet.create({
     borderTopColor: "transparent",
     borderTopWidth: 0,
     elevation: 0, 
-    borderRadius: "16px", 
-    tabBarPressColor: "transparent",
+    borderRadius: "16px",
   }, 
   headerImageStyle: {
     width: 80,
