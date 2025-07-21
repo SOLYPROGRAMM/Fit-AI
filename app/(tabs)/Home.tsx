@@ -1,195 +1,171 @@
-import { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import CircularProgress from 'react-native-circular-progress-indicator';
+import { ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
+import CircularProgress from "react-native-circular-progress-indicator";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Index() {
-  const [selectedPeriod, setSelectedPeriod] = useState('today');
+const data = {
+  cal: { today: 1500 },
+  kcal: { today: 450 },
+  startvalues: {
+    cal: 2000,
+    kcal: 500,
+  },
+};
 
-  const renderContent = () => {
-    switch (selectedPeriod) {
-      case 'today':
-        return (
-          <>
-            {/* Calories left */}
-
-            <View style={styles.view}>
-              <Text style={styles.informationTextcal}>{data.calleft.today} cal left</Text>
-              <CircularProgress
-                value={data.calleft.today}
-                radius={60}
-                duration={1000}
-                progressValueColor={'#302f2b'}
-                maxValue={data.calleft.todayfrom}
-              />
-            </View>
-
-            {/* Kilocalories spend */}
-
-            <View style={styles.view}>
-              <Text style={styles.informationTextkcal}>{data.kcalspend.today} kcal spend</Text>
-              <CircularProgress
-                value={data.kcalspend.today}
-                radius={60}
-                duration={1000}
-                progressValueColor={'#302f2b'}
-                maxValue={data.kcalspend.todayfrom}
-              />
-            </View>
-
-
-          </>
-        );
-      case 'yesterday':
-        return (
-          <>
-            <View style={styles.view}>
-              <Text>Content for Yesterday - Item A</Text>
-            </View>
-          </>
-        );
-      case 'week':
-        return (
-          <>
-            <View style={styles.view}>
-              <Text>Content for This Week - Overview</Text>
-            </View>
-          </>
-        );
-      default:
-        return null;
-    }
-  };
-
+export default function Home() {
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.timebuttons}>
-        <Pressable
-          onPress={() => setSelectedPeriod('today')}
-          style={({ pressed }) => [
-            styles.links,
-            selectedPeriod === 'today' && styles.activeLink,
-            pressed && styles.pressedLink,
-          ]}
-        >
-          <Text style={[styles.linkText, selectedPeriod === 'today' && styles.activeLinkText]}>Today</Text>
-          {selectedPeriod === 'today' && <View style={styles.activePeriodIndicator} />}
-        </Pressable>
+    <SafeAreaView style={styles.fullScreen}>
+      <StatusBar backgroundColor="#d9d3ce" barStyle="dark-content" />
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.cardGroupWrapper}>
+          <View style={styles.rowWrapper}>
+            <View style={styles.card}>
+              <CircularProgress
+                value={Math.min(data.cal.today, data.startvalues.cal)}
+                activeStrokeWidth={14}
+                inActiveStrokeWidth={10}
+                inActiveStrokeOpacity={0.2}
+                radius={60}
+                duration={1000}
+                maxValue={data.startvalues.cal}
+                activeStrokeColor="#41331b"
+                inActiveStrokeColor="#716241"
+              />
+              <Text style={styles.cardValue}>
+                {data.cal.today} / {data.startvalues.cal}
+              </Text>
+              <Text style={styles.cardLabel}>Calories eaten 🍱</Text>
+            </View>
 
-        <Pressable
-          onPress={() => setSelectedPeriod('yesterday')}
-          style={({ pressed }) => [
-            styles.links,
-            selectedPeriod === 'yesterday' && styles.activeLink,
-            pressed && styles.pressedLink,
-          ]}
-        >
-          <Text style={[styles.linkText, selectedPeriod === 'yesterday' && styles.activeLinkText]}>Yesterday</Text>
-          {selectedPeriod === 'yesterday' && <View style={styles.activePeriodIndicator} />}
-        </Pressable>
+            <View style={styles.card}>
+              <CircularProgress
+                value={Math.min(data.kcal.today, data.startvalues.kcal)}
+                activeStrokeWidth={14}
+                inActiveStrokeWidth={10}
+                inActiveStrokeOpacity={0.2}
+                radius={60}
+                duration={1000}
+                maxValue={data.startvalues.kcal}
+                activeStrokeColor="#41331b"
+                inActiveStrokeColor="#716241"
+              />
+              <Text style={styles.cardValue}>
+                {data.kcal.today} / {data.startvalues.kcal}
+              </Text>
+              <Text style={styles.cardLabel}>Calories burned 🔥</Text>
+            </View>
+          </View>
 
-        <Pressable
-          onPress={() => setSelectedPeriod('week')}
-          style={({ pressed }) => [
-            styles.links,
-            selectedPeriod === 'week' && styles.activeLink,
-            pressed && styles.pressedLink,
-          ]}
-        >
-          <Text style={[styles.linkText, selectedPeriod === 'week' && styles.activeLinkText]}>Week</Text>
-          {selectedPeriod === 'week' && <View style={styles.activePeriodIndicator} />}
-        </Pressable>
-      </View>
+          <View style={styles.cardFullWidth}>
+            <Text style={styles.cardTitle}>Today's Trainings 🏋️‍♀️</Text>
 
-      {renderContent()}
+            <View style={styles.trainingRow}>
+              <Text style={styles.trainingType}>💪 Strength</Text>
+              <Text style={styles.trainingTime}>45 min</Text>
+              <Text style={styles.trainingKcal}>300 kcal</Text>
+            </View>
 
-    </ScrollView>
+            <View style={styles.trainingRow}>
+              <Text style={styles.trainingType}>🏃‍♂️ Cardio</Text>
+              <Text style={styles.trainingTime}>30 min</Text>
+              <Text style={styles.trainingKcal}>400 kcal</Text>
+            </View>
+
+            <View style={styles.trainingRow}>
+              <Text style={styles.trainingType}>🧘 Yoga</Text>
+              <Text style={styles.trainingTime}>60 min</Text>
+              <Text style={styles.trainingKcal}>200 kcal</Text>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
-const data = {
-  calleft: {
-    today: 2500,
-    yesterday: 2500,
-    week: 2500, 
-    todayfrom: 3000, 
-    yesterdayfrom: 3000, 
-    weekfrom: 3000,
-  }, 
-  kcalspend: {
-    today: 250, 
-    yesterday: 250, 
-    week: 250, 
-    todayfrom: 500, 
-    yesterdayfrom: 500, 
-    weekfrom: 500,
-  }
-}
-
 const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    margin: 10,
+  fullScreen: {
     flex: 1,
+    backgroundColor: "#d9d3ce",
   },
-  view: {
-    display: "flex",
-    padding: 30,
-    margin: 10,
-    justifyContent: "center",
-    alignItems: "center", 
-    borderWidth: 1,
-    borderColor: "#302f2c", 
-    borderRadius: 10, 
-    backgroundColor: "#efece3", 
-    flexDirection: "row"
+  scrollContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 10,
+    marginTop: 20, 
+    margin: 7, 
   },
-  timebuttons: {
-    display: "flex",
+  cardGroupWrapper: {
+    gap: 10,
+  },
+  rowWrapper: {
     flexDirection: "row",
-    padding: 10,
-    justifyContent: "space-around",
-    marginBottom: 10,
+    justifyContent: "space-between",
+    gap: 10,
   },
-  links: {
-    paddingVertical: 8,
-    paddingHorizontal: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative', 
-    minWidth: 80,
+  card: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "#bebeae",
+    borderColor: "#302f2c",
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 15, 
+    elevation: 5,
   },
-  linkText: {
+  cardFullWidth: {
+    backgroundColor: "#bebeae",
+    borderColor: "#302f2c",
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 15,
+    marginTop: 7,
+    elevation: 5,
+  },
+  cardValue: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#302f2c",
+    marginTop: 10,
+  },
+  cardLabel: {
     fontSize: 20,
     color: "#302f2c",
-    fontWeight: "400",
+    marginTop: 4,
+    textAlign: "center",
   },
-  activeLink: {
-  },
-  activeLinkText: {
+  cardTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
     color: "#302f2c",
-    fontWeight: "500",
+    marginBottom: 15,
+    textAlign: "center",
   },
-  pressedLink: {
-    opacity: 0.7,
+  trainingRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderWidth: 1,
+    borderColor: "#302f2c",
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    marginBottom: 8,
+    backgroundColor: "#e8e6dd",
+    elevation: 2,
   },
-  activePeriodIndicator: {
-    position: 'absolute',
-    bottom: -8,
-    width: 6,
-    height: 6,
-    borderRadius: 4,
-    backgroundColor: '#302f2c',
-  }, 
-  informationTextcal: {
-    fontSize: 30,
+  trainingType: {
+    flex: 2,
+    fontSize: 18,
     color: "#302f2c",
-    fontWeight: "500", 
-    marginRight: 30, 
   },
-  informationTextkcal: {
-    fontSize: 30,
+  trainingTime: {
+    flex: 1,
+    fontSize: 18,
     color: "#302f2c",
-    fontWeight: "500", 
-    marginRight: 20,
-  }
+    textAlign: "center",
+  },
+  trainingKcal: {
+    flex: 1,
+    fontSize: 18,
+    color: "#302f2c",
+    textAlign: "right",
+  },
 });
